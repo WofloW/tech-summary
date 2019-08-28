@@ -1,6 +1,6 @@
-version 6.7
-
 create mapping of aws elasticsearch
+
+# version 6.7
 
 
 ```
@@ -33,7 +33,7 @@ PUT domain/news
 }
 ```
 
-But in verison 7.1
+# Verison 7.1
 Error: The mapping definition cannot be nested under a type [_doc] unless include_type_name is set to true
 
 Note that in 7.0, _doc is a permanent part of the path, and represents the endpoint name rather than the document type.
