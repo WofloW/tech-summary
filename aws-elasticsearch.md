@@ -1,11 +1,10 @@
 version 6.7
 
-create mapping
-
+create mapping of aws elasticsearch
 
 
 ```
-POST domain/news
+PUT domain/news
 {
   "mappings": {
     "_doc": {
@@ -42,7 +41,7 @@ Note that in 7.0, _doc is a permanent part of the path, and represents the endpo
 [elastic mapping](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html)
 
 ```
-POST domain/news
+PUT domain/news
 {
   "mappings": {
     "properties": {
