@@ -7,7 +7,9 @@ taro版本：1.3.14
 
 ## 建议同时打开
 https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/basic.html
+
 https://taro-docs.jd.com/taro/docs/README.html
+
 https://taro-ui.aotu.io/#/docs/introduction
 
 三个文档并列，1是微信小程序的官方文档，2是taro官方文档，3是taro ui的文档
