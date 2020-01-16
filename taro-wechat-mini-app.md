@@ -58,3 +58,5 @@ class Index extends Component {
   }
 }
 ```
+
+request response header.Content-Range在模拟器和安卓是一样的，在iOS上是content-range，这个还蛮坑的
