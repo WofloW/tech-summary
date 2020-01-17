@@ -60,3 +60,5 @@ class Index extends Component {
 ```
 
 request response header.Content-Range在模拟器和安卓是一样的，在iOS上是content-range，这个还蛮坑的
+
+css里#AAAAAA50的透明度写法，苹果支持，安卓不支持，现在改用rgba()的写法
