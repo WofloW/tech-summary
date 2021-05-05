@@ -334,5 +334,88 @@ Rebuilding will create a new log stream. The old logs are not lost.
 
 At last, I don't know what the effect of enabling S3 log storage/ Rotate logs is. Learn more link will lead you to [this page](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environments-cfg-softwaresettings.html?icmpid=docs_elasticbeanstalk_console). But I didn't figure out how to upload logs to S3 or find the logs somewhere in the bucket.
 
+I saw one solution saying you can override the /etc/nginx/nginx.conf
+
+I tried the .ebextensions/nginx/nginx.conf. EB seems to ignore it.
+
+I tried to override nginx.conf. It works as well.
+
+.ebextensions/nginx/00-my-proxy.config
+```
+files:
+  /etc/nginx/nginx.conf:
+    mode: "000644"
+    owner: root
+    group: root
+    content: |
+        # Elastic Beanstalk Nginx Configuration File
+
+        user  nginx;
+        worker_processes  auto;
+
+        error_log  /var/log/nginx/error.log;
+
+        pid /var/run/nginx.pid;
+
+        events {
+            worker_connections  1024;
+        }
+
+        http {
+          include /etc/nginx/mime.types;
+          default_type application/octet-stream;
+
+          access_log /var/log/nginx/access.log;
+
+          log_format healthd '$msec"$uri"$status"$request_time"$upstream_response_time"$http_x_forwarded_for';
+
+          upstream docker {
+              server 172.17.0.2:3000;
+              keepalive 256;
+          }
+          log_format timed_combined '"$http_x_forwarded_for"'
+          						'$remote_addr - $remote_user [$time_local] '
+                      '"$request" $status $body_bytes_sent '
+                      '"$http_referer" "$http_user_agent" '
+                      '$request_time $upstream_response_time $pipe';
+
+
+          map $http_upgrade $connection_upgrade {
+                  default        "upgrade";
+                  ""            "";
+          }
+
+          server {
+              listen 80;
+
+                gzip on;
+              gzip_comp_level 4;
+              gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+                if ($time_iso8601 ~ "^(\d{4})-(\d{2})-(\d{2})T(\d{2})") {
+                    set $year $1;
+                    set $month $2;
+                    set $day $3;
+                    set $hour $4;
+                }
+                access_log /var/log/nginx/healthd/application.log.$year-$month-$day-$hour healthd;
+
+                access_log /var/log/nginx/access.log timed_combined;
+
+                location / {
+                    proxy_pass            http://docker;
+                    proxy_http_version    1.1;
+
+                    proxy_set_header    Connection            $connection_upgrade;
+                    proxy_set_header    Upgrade                $http_upgrade;
+                    proxy_set_header    Host                $host;
+                    proxy_set_header    X-Real-IP            $remote_addr;
+                    proxy_set_header    X-Forwarded-For        $proxy_add_x_forwarded_for;
+                }
+          }
+        }
+
+```
+
 
 
