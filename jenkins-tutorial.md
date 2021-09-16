@@ -57,7 +57,7 @@ pipeline {
 ```
 
 ## Create a new item in Jenkins dashboard
-- link the project from github
+- Link the project from github
 - Click the project
 - Click the branch
 - Build Now
