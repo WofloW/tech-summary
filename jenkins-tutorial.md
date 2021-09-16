@@ -35,6 +35,7 @@ Edit /usr/local/Cellar/jenkins-lts/2.303.1/homebrew.mxcl.jenkins-lts.plist
 
 ## Start Jenkins
 brew services start jenkins-lts
+
 Open browser localhost:8080
 
 ## Check the initial password
@@ -56,10 +57,10 @@ pipeline {
 ```
 
 ## Create a new item in Jenkins dashboard
-link the project from github
-Click the project
-Click the branch
-Build Now
-Check the Console output
+- link the project from github
+- Click the project
+- Click the branch
+- Build Now
+- Check the Console output
 
 
